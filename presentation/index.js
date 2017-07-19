@@ -431,6 +431,7 @@ export default class Presentation extends React.Component {
             </Heading>
             <Text>
               <Link target="_blank" href="http://mobx-gdg.surge.sh">mobx-gdg.surge.sh</Link>
+              <br />
               <Link target="_blank" href="https://github.com/JiLiZART/mobx-gdg-slides">github.com/JiLiZART/mobx-gdg-slides</Link>
             </Text>
           </Slide>
