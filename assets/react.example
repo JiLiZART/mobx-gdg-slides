@@ -1,0 +1,76 @@
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import { observer } from 'mobx-react';
+
+@observer
+class TodoList extends Component {
+  render() {
+    const { store } = this.props;
+
+    return (
+      <div>
+        { store.report }
+        <ul>
+        { store.todos.map(
+          (todo, idx) => 
+            <TodoView 
+                todo={ todo } 
+                key={ idx } />
+        ) }
+        </ul>
+        { store.pendingRequests > 0 
+            ? <marquee>Loading...</marquee> 
+            : null }
+        <button 
+            onClick={ this.onNewTodo }
+            >Add</button>
+        <small>(dblclick to edit)</small>
+      </div>
+    );
+  }
+
+  onNewTodo = () => {
+    const { store } = this.props;
+    store.addTodo(prompt('Title:', 'buy bread'));
+  }
+}
+
+@observer
+class TodoView extends Component {
+  render() {
+    const { todo } = this.props;
+
+    return (
+      <li 
+        onDoubleClick={ this.onRename }>
+        <input
+          type='checkbox'
+          checked={ todo.completed }
+          onChange={ this.onToggleCompleted }
+        />
+        { todo.task }
+        { todo.assignee
+          ? <small>{ todo.assignee.name }</small>
+          : null
+        }
+      </li>
+    );
+  }
+
+  onToggleCompleted = () => {
+    const { todo } = this.props;
+
+    todo.completed = !todo.completed;
+  }
+
+  onRename = () => {
+    const { todo } = this.props;
+
+    todo.task = prompt('Name', todo.task) || todo.task;
+  }
+}
+
+ReactDOM.render(
+  <TodoList store={ store } />,
+  document.getElementById('root')
+);

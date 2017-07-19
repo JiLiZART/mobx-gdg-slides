@@ -1,0 +1,7 @@
+var peopleStore = mobx.observable([
+    { name: "Michel" },
+	{ name: "Me" }
+]);
+store.todos[0].assignee = peopleStore[0];
+store.todos[1].assignee = peopleStore[1];
+peopleStore[0].name = "Michel Weststrate";

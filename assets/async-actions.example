@@ -1,0 +1,5 @@
+store.pendingRequests++;
+setTimeout(function() {
+    store.addTodo('Random Todo ' + Math.random());
+    store.pendingRequests--;
+}, 2000);

@@ -1,0 +1,53 @@
+import { 
+    observable, 
+    computed, action 
+    autorun 
+} from 'mobx';
+
+class ObservableTodoStore {
+    @observable todos = [];
+    @observable pendingRequests = 0;
+
+    @computed get report() {
+        if (this.todos.length === 0) {
+            return "<none>";
+        }
+
+        const task = this.todos[0].task;
+        const progress = this.completedCount/this.todos.length;
+
+        return `Next: "${task}". Progress: ${progress}`;
+    }
+
+    constructor() {
+        autorun(
+            () => console.log(this.report)
+        );
+    }
+
+    @computed get completedCount() {
+        return this.todos.filter(
+            todo => todo.completed === true
+        ).length;
+    }
+
+    @action addTodo(text) {
+        this.todos.push({
+            task: text,
+            completed: false,
+            assignee: null
+        });
+    }
+}
+
+const store = new ObservableTodoStore();
+
+store.addTodo("hello MobX");
+
+store.addTodo("try MobX");
+
+store.todos[0].completed = true;
+
+store.todos[1].task = "try MobX in own project";
+
+store.todos[0].task = "MobX forever";
